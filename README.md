@@ -1,14 +1,14 @@
 # booking.in
 
-#Stack
+## Development Stack
 
-##Front end
+### Front end
 React
 
-##Backend
+### Backend
 Express
 Graphql
 Mongoose
 
-##Database
+### Database
 MongoDb Atlas

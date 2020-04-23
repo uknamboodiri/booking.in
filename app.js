@@ -4,6 +4,7 @@ const graphqlHTTP = require('express-graphql');
 const { buildSchema } = require('graphql');
 
 const mongoose = require('mongoose');
+const Event = require('./models/event');
 
 const app = express();
 
@@ -45,25 +46,32 @@ app.use('/graphql', graphqlHTTP({
     `),
     rootValue: {
         events: () => {
-            return events;
+            return Event.find().then().catch( err => {
+                console.log(err);
+            });
         },
         createEvent: (args) => {
-            const event = {
-                _id: Math.random().toString(),
+            const event = new Event({
                 title: args.eventInput.title,
                 description: args.eventInput.description,
                 price: +args.eventInput.price,
-                date: args.eventInput.date
-            };
-            events.push(event);
-            return event;
+                date: new Date(args.eventInput.date)
+            });
+            return event.save().then(result => {
+                return result;
+            }
+            ).catch(err => {
+                console.log(err);
+                throw err;
+            });
+
         }
     }
 }));
 
 mongoose.connect(`
 mongodb+srv://${process.env.MONGO_USR}:${process.env.MONGO_PWD}@cluster0-flywy.azure.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority
-`).then( () => {
+`).then(() => {
     app.listen(3000);
 }
 ).catch(

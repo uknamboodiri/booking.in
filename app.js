@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const graphqlHTTP = require('express-graphql');
 const { buildSchema } = require('graphql');
+
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -11,33 +12,36 @@ const events = [];
 app.use('/graphql', graphqlHTTP({
     graphiql: true,
     schema: buildSchema(`
-        
         type Event {
-            _id: ID!
+            _id : ID!
             title: String!
             description: String!
             price: Float!
             date: String!
         }
-
+        
         input EventInput {
             title: String!
             description: String!
             price: Float!
             date: String!
         }
-
+        
+        
         type RootQuery {
             events: [Event!]!
         }
+    
         type RootMutation {
             createEvent(eventInput: EventInput!): Event
+
         }
 
         schema {
             query: RootQuery
             mutation: RootMutation
         }
+            
     `),
     rootValue: {
         events: () => {
@@ -50,13 +54,22 @@ app.use('/graphql', graphqlHTTP({
                 description: args.eventInput.description,
                 price: +args.eventInput.price,
                 date: args.eventInput.date
-            }
-            console.log(event)
+            };
             events.push(event);
             return event;
         }
-
     }
 }));
 
-app.listen(3000);
+mongoose.connect(`
+mongodb+srv://${process.env.MONGO_USR}:${process.env.MONGO_PWD}@cluster0-flywy.azure.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority
+`).then( () => {
+    app.listen(3000);
+}
+).catch(
+    err => {
+        console.log(err);
+        throw err;
+        ;
+    }
+);

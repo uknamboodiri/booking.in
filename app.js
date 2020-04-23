@@ -8,8 +8,6 @@ const Event = require('./models/event');
 
 const app = express();
 
-const events = [];
-
 app.use('/graphql', graphqlHTTP({
     graphiql: true,
     schema: buildSchema(`
@@ -48,36 +46,35 @@ app.use('/graphql', graphqlHTTP({
         events: () => {
             return Event.find().then().catch( err => {
                 console.log(err);
+                throw err;
             });
+
         },
         createEvent: (args) => {
             const event = new Event({
                 title: args.eventInput.title,
                 description: args.eventInput.description,
-                price: +args.eventInput.price,
+                price: args.eventInput.price,
                 date: new Date(args.eventInput.date)
             });
-            return event.save().then(result => {
-                return result;
-            }
-            ).catch(err => {
+
+            return event.save().then( () => {
+                return event;
+            }            
+            ).catch( err => {
                 console.log(err);
                 throw err;
             });
-
         }
     }
 }));
 
-mongoose.connect(`
-mongodb+srv://${process.env.MONGO_USR}:${process.env.MONGO_PWD}@cluster0-flywy.azure.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority
-`).then(() => {
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-flywy.azure.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`)
+.then( () => {
     app.listen(3000);
-}
-).catch(
-    err => {
-        console.log(err);
-        throw err;
-        ;
-    }
-);
+})
+.catch( err => {
+    console.log(err);
+    throw err;
+});
+

@@ -1,7 +1,7 @@
 {
     "env": {
-        "MONGO_USR" : "dbUser",
-        "MONGO_PWD" : "Tb8QJJbaoRDHA5Pj",
-        "MONGO_DB" : "bookings"
+        "MONGO_USER": "dbUser",
+        "MONGO_PASSWORD": "58jqT8acwZTttDsh",
+        "MONGO_DB": "bookings"        
     }
 }

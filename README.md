@@ -11,4 +11,4 @@ Graphql
 Mongoose
 
 ### Database
-MongoDb Atlas
+MongoDB Atlas

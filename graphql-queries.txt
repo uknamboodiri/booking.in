@@ -1,0 +1,22 @@
+query Events {
+  events{
+    _id
+    title
+  }
+}
+
+mutation createEvent {
+  createEvent(eventInput: {title: "Event Name", description: "Event Description", price: 9.9, date: "2020-04-24T17:34:24.697Z"}) {
+    _id
+    title
+    price
+  }
+}
+
+mutation createUser {
+  createUser(userInput: {email: "unni@abc.local", password: "abc#123"}) {
+    _id
+    email
+    password
+  }
+}

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    email: {
+    email: { 
         type: String,
         require: true
     },
@@ -10,7 +10,7 @@ const userSchema = new Schema({
         type: String,
         require: true
     },
-    createdEvents : [
+    createdEvents: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Event'

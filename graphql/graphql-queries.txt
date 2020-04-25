@@ -1,7 +1,19 @@
 query Events {
-  events{
+  events {
     _id
     title
+    description
+    price
+    date
+    creator{
+      _id
+      email
+      password
+      createdEvents{
+        _id
+        price
+      }
+    }
   }
 }
 
@@ -10,6 +22,7 @@ mutation createEvent {
     _id
     title
     price
+    date
   }
 }
 

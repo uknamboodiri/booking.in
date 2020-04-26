@@ -8,6 +8,7 @@ const events = (eventIds) => {
             return events.map(event => {
                 return {
                     ...event._doc,
+                    date: new Date(event._doc.date).toISOString(),
                     creator: user.bind(this, event.creator)
                 }
             });
@@ -23,7 +24,7 @@ const user = (userId) => {
             return {
                 ...user._doc,
                 password: null,
-                createdEvents: events.bind(this,user._doc.createdEvents)
+                createdEvents: events.bind(this, user._doc.createdEvents)
             };
         })
         .catch((err) => {
@@ -38,6 +39,7 @@ module.exports = {
                 return events.map(event => {
                     return {
                         ...event._doc,
+                        date: new Date(event._doc.date).toISOString(),
                         creator: user.bind(this, event._doc.creator) //store user instead
                     }
                 })
@@ -62,7 +64,8 @@ module.exports = {
             .then(result => {
                 createdEvents = {
                     ...result._doc,
-                    creator: user.bind(this,result.creator)
+                    date: new Date(event._doc.date).toISOString(),
+                    creator: user.bind(this, result.creator)
                 };
                 return User.findById('5ea34470af68fc328e934a22');
             })
@@ -99,9 +102,10 @@ module.exports = {
                 return user.save();
             })
             .then(result => {
-                return { ...result._doc, 
-                    password: null                    
-                 };
+                return {
+                    ...result._doc,
+                    password: null
+                };
             })
             .catch(err => {
                 console.log(err);

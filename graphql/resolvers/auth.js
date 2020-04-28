@@ -30,27 +30,23 @@ module.exports = {
             throw err;
         }
     },
-    login: async ({ email, password }) => {
-        //check if email exisits
-        //compare passwords
-        //generate a jwt
-        //set a expiration
-        //return the authdata
-        const user = await User.findOne({ email: email });
+    login: async ({email, password}) => {
+        const user = await User.findOne({email: email});
         if (!user) {
             throw new Error('User does not exist');
         }
 
-        const verfied = await bcrypt.compare(password, user.password);
-        if (!verfied) {
+        const isVerfied = await bcrypt.compare(password, user.password);
+        if (!isVerfied) {
             throw new Error('Password does not match');
         }
 
-        const token = await jwt.sign({ userId: user.id, email: user.email }, 'somesuperprotectedkey', {expiresIn: '1h'});
-        return {
+        const token = jwt.sign({userId: user.id, email: user.email},'somesecretkey',{expiresIn: '1h'});
+        return { 
             userId: user.id,
             token: token,
             tokenExpiration: 1
-        }
+        };
+
     }
 }

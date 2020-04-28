@@ -12,8 +12,8 @@ module.exports = {
         }
         catch (err) { throw err; }
     },
-    createEvent: async (args, req) => {        
-        if(!req.isAuthorized){
+    createEvent: async (args, req) => {
+        if(!req.isAuth){
             throw new Error('Unauthorized');
         }
         try {

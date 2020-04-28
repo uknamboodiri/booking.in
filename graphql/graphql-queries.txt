@@ -41,3 +41,43 @@ mutation createUser {
     password
   }
 }
+
+mutation {
+  bookEvent(eventId:"5ea733f3d0c602474d334009"){
+    _id
+    event{
+      title
+      creator{
+        email
+      }
+    }
+    user{
+      _id
+      createdEvents{
+        title
+        date
+      }
+    }
+  }
+}
+
+postman queries
+=-=-=-=-=-=--=-=-=-=
+{
+	"query": "query {  login(email:\"unni@abc.local\", password: \"abc#123\"){token} }"
+}
+
+mutation {
+  createEvent(eventInput: { 
+    title: \"Postman Event Name\", 
+    description: \"Event Description\", 
+    price: 9.9, 
+    date: \"2020-04-24T17:34:24.697Z\"
+    }) 
+    {
+    _id
+    title
+    price
+    date
+  }
+}

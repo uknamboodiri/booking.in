@@ -22,7 +22,7 @@ module.exports = {
                 description: args.eventInput.description,
                 price: +args.eventInput.price,
                 date: args.eventInput.date,
-                creator: '5ea70861c26caa1de0a9c7c0'
+                creator: req.userId //'5ea70861c26caa1de0a9c7c0'
             });
 
             //save the event
@@ -31,7 +31,9 @@ module.exports = {
             savedEvent = transformEvent(result);
 
             //update user Model
-            const creator = await User.findById('5ea70861c26caa1de0a9c7c0');
+            //const creator = await User.findById('5ea70861c26caa1de0a9c7c0');
+            
+            const creator = await User.findById(req.userId);
             if (!creator) {
                 throw new Error('User does not exist');
             }

@@ -1,11 +1,8 @@
-import React, { Component } from 'react';
+import React,{ Component } from "react";
 
-class AuthPage extends Component {
-    render() {
-        return (
-            < h1 > Its the Auth Page</h1>
-        )
-
+class AuthPage extends Component{
+    render(){
+        return(<h1>Auth Page</h1>);
     }
 }
 
